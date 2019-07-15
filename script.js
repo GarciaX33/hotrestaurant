@@ -1,6 +1,6 @@
 var express = require("express");
 var path = require("path");
-var tableData = require('./tableData.js');
+// var tableData = require('./tableData.js');
 
 
 var app = express();
@@ -64,15 +64,15 @@ var waitlist = [
 app.use(express.static(path.join(__dirname, '../../assets')));
 
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "../../home.html"));
+  res.sendFile(path.join(__dirname, "views/index.html"));
 });
 
 app.get("/reserve", function(req, res) {
-  res.sendFile(path.join(__dirname, "../../reserve.html"));
+  res.sendFile(path.join(__dirname, "views/reserve.html"));
 });
 
 app.get("/tables", function(req, res) {
-  res.sendFile(path.join(__dirname, "../../tables.html"));
+  res.sendFile(path.join(__dirname, "views/table.html"));
 });
 
 app.get("/api/tables", function(req, res) {
@@ -80,14 +80,14 @@ app.get("/api/tables", function(req, res) {
 });
 
 // Displays a single character, or returns false
-app.get("/api/characters/:character", function(req, res) {
-    var chosen = req.params.character;
+app.get("/api/tables/:tables", function(req, res) {
+    var chosen = req.params.table;
   
     console.log(chosen);
   
-    for (var i = 0; i < characters.length; i++) {
-      if (chosen === characters[i].routeName) {
-        return res.json(characters[i]);
+    for (var i = 0; i < table.length; i++) {
+      if (chosen === tables[i].routeName) {
+        return res.json(tables[i]);
       }
     }
   
@@ -95,20 +95,20 @@ app.get("/api/characters/:character", function(req, res) {
   });
   
   // Create New Characters - takes in JSON input
-  app.post("/api/characters", function(req, res) {
+  app.post("/api/tables", function(req, res) {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
-    var newcharacter = req.body;
+    var newTables = req.body;
   
     // Using a RegEx Pattern to remove spaces from newCharacter
     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    newcharacter.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
+    newTables.routeName = newTables.name.replace(/\s+/g, "").toLowerCase();
   
-    console.log(newcharacter);
+    console.log(newTables);
   
-    characters.push(newcharacter);
+    tables.push(newTables);
   
-    res.json(newcharacter);
+    res.json(newTables);
   });
   
   // Starts the server to begin listening
